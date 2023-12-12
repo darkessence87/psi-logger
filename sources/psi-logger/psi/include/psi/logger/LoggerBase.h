@@ -28,6 +28,8 @@ const char *asString(LogLevel) noexcept;
 class ILoggerSingleton
 {
 public:
+    virtual ~ILoggerSingleton() = default;
+
     virtual bool needLog(LogLevel) const = 0;
     virtual std::ostringstream &logStream(LogLevel, const char *, const char *, int, size_t) = 0;
     virtual std::ostringstream &logStreamShort() = 0;
