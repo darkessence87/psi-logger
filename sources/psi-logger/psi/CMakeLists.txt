@@ -18,6 +18,8 @@ link_directories(
 add_library(psi-logger STATIC ${SOURCES})
 target_link_libraries(psi-logger
     psi-shared
+    psi-thread
+    psi-tools
 )
 
 # set(TEST_SRC
