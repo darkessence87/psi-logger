@@ -8,7 +8,7 @@ file(MAKE_DIRECTORY ${BUILD_DIR}/bin/)
 
 if (WIN32)
     # setup project
-    project(psi-sm)
+    project(psi-logger)
 
     set( SUB_DIR_LIBS ${CMAKE_BUILD_TYPE}/win64)
 
