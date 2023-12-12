@@ -100,8 +100,8 @@ inline std::string to_upper(const std::string &str) noexcept
     return data;
 }
 
-std::wstring utf8_to_wstring(const std::string &);
-std::string wstring_to_utf8(const std::wstring &);
+std::wstring utf8_to_wstring(const std::string &) noexcept;
+std::string wstring_to_utf8(const std::wstring &) noexcept;
 std::string generateTimeStamp() noexcept;
 
 template <typename Arg>

@@ -62,12 +62,12 @@ private:
             mem->getSharedMemory()->lock();
             mem->getSharedMemory()->read()->setAvailable(true);
             mem->getSharedMemory()->unlock();
-            std::cout << "Initialized service [" << mem->name() << "] for all connected clients" << std::endl;
+            std::cout << "[IServerIPCBase] Initialized service [" << mem->name() << "] for all connected clients" << std::endl;
         } else {
             static T space = T();
             space.setAvailable(true);
             mem->loadToShared(&space);
-            std::cout << "Created service [" << mem->name() << "]" << std::endl;
+            std::cout << "[IServerIPCBase] Created service [" << mem->name() << "]" << std::endl;
         }
         return mem;
     }
@@ -76,7 +76,7 @@ private:
     void freeMemory(ServiceMemoryPtr<T> mem)
     {
         if (!mem) {
-            std::cout << "service is not created" << std::endl;
+            std::cout << "[IServerIPCBase] service is not created" << std::endl;
             return;
         }
 
@@ -86,7 +86,7 @@ private:
         obj->setAvailable(false);
         ptr->unlock();
 
-        std::cout << "Destroyed service [" << mem->name() << "]" << std::endl;
+        std::cout << "[IServerIPCBase] Destroyed service [" << mem->name() << "]" << std::endl;
     }
 
     void readMemory();

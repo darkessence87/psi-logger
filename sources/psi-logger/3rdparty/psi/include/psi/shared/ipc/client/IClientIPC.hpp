@@ -184,12 +184,12 @@ private:
     {
         auto mem = ServiceMemory<T>::getInstance(name);
         if (mem->isShared()) {
-            std::cout << "Connected to existing service [" << mem->name() << "]" << std::endl;
+            std::cout << "[IClientIPC] Connected to existing service [" << mem->name() << "]" << std::endl;
             mem->loadFromShared();
         } else {
             static T space = T();
             mem->loadToShared(&space);
-            std::cout << "Connected to new service [" << mem->name() << "]" << std::endl;
+            std::cout << "[IClientIPC] Connected to new service [" << mem->name() << "]" << std::endl;
         }
 
         return mem->getSharedMemory();

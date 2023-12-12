@@ -4,10 +4,10 @@
 
 #include "IServerIPCBase.h"
 
-#include "psi/Tools.h"
 #include "psi/comm/SafeCaller.h"
 #include "psi/shared/ipc/IPCCall.h"
 #include "psi/thread/ILoop.h"
+#include "psi/tools/Tools.h"
 
 #include "MemberFnWrapper.h"
 
@@ -35,7 +35,7 @@ public:
     void run(std::chrono::microseconds sleepTime = std::chrono::microseconds(1))
     {
         m_fnServiceMap = server().generateFnMap();
-        ((IServerIPCBase*)this)->run(sleepTime);
+        ((IServerIPCBase *)this)->run(sleepTime);
     }
 
 private:
@@ -51,7 +51,7 @@ private:
             if (auto fnItr = m_fnServiceMap.find(ipcCall.methodId); fnItr != m_fnServiceMap.end()) {
                 auto fn = fnItr->second;
                 // make fn data buffer
-                uint8_t* callData = new uint8_t[callSz]();
+                uint8_t *callData = new uint8_t[callSz]();
                 memcpy(callData, queue + i + headSz, callSz);
                 if (m_loop) {
                     m_loop->invoke(m_guard.invoke([this, fn, callData, cbIndex = ipcCall.cbIndex]() {
@@ -78,7 +78,7 @@ private:
 private:
     FnServiceMap<T> m_fnServiceMap;
     std::shared_ptr<thread::ILoop> m_loop;
-    SafeCaller m_guard;
+    comm::SafeCaller m_guard;
 };
 
 } // namespace psi::ipc::server
