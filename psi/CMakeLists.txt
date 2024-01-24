@@ -1,9 +1,5 @@
 
 include_directories(
-    ${psi_comm_dir}/psi/include
-    ${psi_shared_dir}/psi/include
-    ${psi_thread_dir}/psi/include
-    ${psi_tools_dir}/psi/include
     include
     src
 )
@@ -12,10 +8,6 @@ set(SOURCES
     src/psi/logger/LoggerProxy.cpp
     src/psi/logger/LoggerSingleton.cpp
     src/psi/logger/ThreadMap.cpp
-)
-
-link_directories(
-    ${psi_shared_dir}/build/bin/${CMAKE_BUILD_TYPE}
 )
 
 add_library(psi-logger STATIC ${SOURCES})
