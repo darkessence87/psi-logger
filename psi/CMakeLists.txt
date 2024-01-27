@@ -18,4 +18,4 @@ add_library(psi-logger STATIC ${SOURCES})
 # psi_make_tests("Logger" "${TEST_SRC}" "psi-logger")
 
 set(EXAMPLE_SRC_1.0 examples/1_Simple_Logger/EntryPoint.cpp)
-psi_make_examples("1_Simple_Logger" "${EXAMPLE_SRC_1.0}" "psi-logger;psi-shared")
+psi_make_examples("1_Simple_Logger" "${EXAMPLE_SRC_1.0}" "psi-logger")
