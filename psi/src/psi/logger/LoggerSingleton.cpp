@@ -76,8 +76,8 @@ std::ostringstream &LoggerSingleton::logStream(LogLevel level, const char *fileN
     m_mtx.lock();
     const std::string thisAddressStr = thisAddress ? ("0x" + tools::to_hex_string(thisAddress)) : " static";
     generateHeader(level);
-    *m_logStream << thisAddressStr << RECORD_SEPARATOR << fileName << RECORD_SEPARATOR << fnName << RECORD_SEPARATOR
-                 << std::fixed << std::setprecision(3) << line << RECORD_SEPARATOR;
+    *m_logStream << thisAddressStr << RECORD_SEPARATOR << fileName << ":" << std::fixed << std::setprecision(3) << line << RECORD_SEPARATOR
+                 << fnName << RECORD_SEPARATOR;
     return *m_logStream;
 }
 
