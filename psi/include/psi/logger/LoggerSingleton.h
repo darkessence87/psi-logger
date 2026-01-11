@@ -24,7 +24,7 @@ public:
     bool needLog(LogLevel) const override;
     std::ostringstream &logStream(LogLevel, const char *, const char *, int, size_t) override;
     std::ostringstream &logStreamShort() override;
-    void flush(bool = false);
+    void flush(bool = false) override;
 
     void setLogLevel(LogLevel) override;
 
