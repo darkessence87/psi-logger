@@ -11,6 +11,7 @@ set(SOURCES
 )
 
 add_library(psi-logger STATIC ${SOURCES})
+psi_config_target(psi-logger)
 
 # set(TEST_SRC
 #     tests/.cpp

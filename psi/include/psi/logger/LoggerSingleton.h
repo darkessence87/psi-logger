@@ -3,7 +3,7 @@
 #include <mutex>
 #include <queue>
 
-#include "IThreadMap.hpp"
+#include "ThreadMap.h"
 #include "psi/comm/Subscription.h"
 
 #include "LoggerBase.h"
@@ -19,7 +19,7 @@ public:
     static const size_t MAX_MSG_QUEUE_SZ;
 
     LoggerSingleton(const char *);
-    ~LoggerSingleton();
+    ~LoggerSingleton() override;
 
     bool needLog(LogLevel) const override;
     std::ostringstream &logStream(LogLevel, const char *, const char *, int, size_t) override;
@@ -39,7 +39,7 @@ private:
 
 private:
     std::mutex m_mtx;
-    IThreadMap<> m_threadMap;
+    ThreadMap m_threadMap;
     size_t m_timestampId = 0;
     std::shared_ptr<std::ostringstream> m_logStream;
     const std::string m_ctx;
@@ -53,8 +53,8 @@ private:
 
 ILoggerSingleton &getLoggerInstance(const char *ctx)
 {
-    static LoggerSingleton mainLogger(ctx);
-    return mainLogger;
+    static LoggerSingleton* mainLogger = new LoggerSingleton(ctx);
+    return *mainLogger;
 }
 
 } // namespace psi::logger

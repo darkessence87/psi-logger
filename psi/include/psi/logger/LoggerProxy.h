@@ -1,3 +1,4 @@
+
 #pragma once
 
 #include "generated_LoggerClient.h"

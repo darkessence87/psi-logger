@@ -1,10 +1,6 @@
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.16)
 
-include (project.cmake)
-project(${projectName})
-set (3rdPARTY_DIR "${PROJECT_SOURCE_DIR}/3rdparty")
-
-include (compiler.cmake)
-include (dependencies.cmake)
-
-add_subdirectory (psi)
+include (${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/psi-cmake/project.cmake)
+project(${projectName} LANGUAGES C CXX)
+include (${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/psi-cmake/main.cmake)
+include (${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/psi-cmake/scan_tests.cmake)

@@ -1,3 +1,4 @@
+
 #include "psi/logger/LoggerProxy.h"
 
 namespace psi::logger {
@@ -9,26 +10,31 @@ LoggerProxy::LoggerProxy()
 
 void LoggerProxy::log(uint16_t clientId, std::string msg)
 {
-    const size_t MAX_MSG_SZ = 479;
-    auto splitMsg = [=](const std::string &str) -> std::vector<std::string> {
-        if (str.length() <= MAX_MSG_SZ) {
-            return {str};
+    constexpr size_t MAX_MSG_SZ = 479;
+
+    size_t start = 0;
+    const size_t len = msg.size();
+
+    while (start < len) {
+        const size_t chunkSize = std::min(MAX_MSG_SZ, len - start);
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+        std::string_view part {msg.data() + start, chunkSize};
+#pragma clang diagnostic pop
+
+        // Добавляем \n только если это не последний кусок
+        if (start + chunkSize < len) {
+            std::string tmp;
+            tmp.reserve(chunkSize + 1);
+            tmp.append(part);
+            tmp.push_back('\n');
+            INVOKE_SERVER_FN(0x02, clientId, tmp);
+        } else {
+            INVOKE_SERVER_FN(0x02, clientId, part);
         }
 
-        std::vector<std::string> result;
-        size_t startOffset = 0;
-        while (startOffset < str.length()) {
-            size_t endOffset = startOffset + MAX_MSG_SZ;
-            endOffset = endOffset > str.length() ? str.length() : endOffset;
-            result.emplace_back(std::string(str.begin() + startOffset, str.begin() + endOffset) + "\n");
-            startOffset += MAX_MSG_SZ;
-        }
-
-        return result;
-    };
-
-    for (const auto &msgPart : splitMsg(msg)) {
-        INVOKE_SERVER_FN(0x02, clientId, msgPart);
+        start += chunkSize;
     }
 }
 

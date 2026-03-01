@@ -1,3 +1,4 @@
+
 #include <ctime>
 #include <fstream>
 
@@ -6,6 +7,10 @@
 #include "psi/thread/ThreadPool.h"
 
 #include "psi/tools/Tools.h"
+
+#ifdef _WIN32
+#include <Windows.h>
+#endif
 
 using namespace std::chrono;
 
@@ -27,8 +32,6 @@ const char *asString(LogLevel lvl) noexcept
         return "TRACE";
     case LogLevel::LVL_INFO:
         return " INFO";
-    default:
-        return "unknown";
     }
 }
 
@@ -76,8 +79,8 @@ std::ostringstream &LoggerSingleton::logStream(LogLevel level, const char *fileN
     m_mtx.lock();
     const std::string thisAddressStr = thisAddress ? ("0x" + tools::to_hex_string(thisAddress)) : " static";
     generateHeader(level);
-    *m_logStream << thisAddressStr << RECORD_SEPARATOR << fileName << ":" << std::fixed << std::setprecision(3) << line << RECORD_SEPARATOR
-                 << fnName << RECORD_SEPARATOR;
+    *m_logStream << thisAddressStr << RECORD_SEPARATOR << fileName << ":" << std::fixed << std::setprecision(3) << line
+                 << RECORD_SEPARATOR << fnName << RECORD_SEPARATOR;
     return *m_logStream;
 }
 

@@ -4,13 +4,17 @@
 
 namespace psi::logger {
 
-inline const char *filename(const char *path)
+consteval const char *filename(const char *path)
 {
     const char *file = path;
-    for (; path && *path; ++path) {
+    while (*path) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
         if (*path == '/' || *path == '\\') {
             file = path + 1;
         }
+        ++path;
+#pragma clang diagnostic pop
     }
     return file;
 }
