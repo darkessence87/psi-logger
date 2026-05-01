@@ -2,9 +2,10 @@
 
 #pragma once
 
-#include <functional>
 #include <stdint.h>
 #include <string>
+
+#include "psi/shared/ipc/IPCCallback.h"
 
 namespace psi::logger {
 
@@ -13,7 +14,7 @@ class ILogger
 public:
     virtual ~ILogger() = default;
 
-    using OnClientRegistered = std::function<void(uint16_t)>;
+    using OnClientRegistered = psi::ipc::IPCCallback<uint16_t>;
 
     virtual void registerClient(std::string, OnClientRegistered) = 0;
     virtual void log(uint16_t, std::string) = 0;

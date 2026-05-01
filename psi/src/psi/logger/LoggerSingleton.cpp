@@ -55,7 +55,9 @@ void LoggerSingleton::onLoggerServiceStatusUpdate(bool isAvailable)
 {
     std::cout << "[LoggerServer] isAvailable: " << std::boolalpha << isAvailable << std::endl;
     if (isAvailable) {
-        m_loggerProxy->registerClient(m_ctx, [this](uint16_t clientId) { m_clientId = clientId; });
+        m_loggerProxy->registerClient(m_ctx, [this](uint16_t /*err*/, std::string /*err_msg*/, uint16_t clientId) {
+            m_clientId = clientId;
+        });
     } else {
         m_clientId = 0;
     }
