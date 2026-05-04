@@ -14,7 +14,7 @@
 namespace psi::logger {
 
 ThreadMap::ThreadName::ThreadName()
-    : data("")
+    : data()
 {
 }
 

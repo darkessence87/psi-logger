@@ -99,7 +99,7 @@ void LoggerSingleton::flush(bool isShort)
     }
     logTo(m_logStream->str());
 
-    m_logStream->str("");
+    m_logStream->str(std::string{});
     m_mtx.unlock();
 }
 
@@ -136,7 +136,7 @@ std::string LoggerSingleton::currTimeLocal() const
     localtime_s(&localTime, &tt);
 
     std::ostringstream str;
-    str << "" << std::setw(2) << std::setfill('0') << localTime.tm_hour;
+    str << std::string{} << std::setw(2) << std::setfill('0') << localTime.tm_hour;
     str << ":" << std::setw(2) << std::setfill('0') << localTime.tm_min;
     str << ":" << std::setw(2) << std::setfill('0') << localTime.tm_sec;
     str << "." << std::setw(9) << std::setfill('0') << nsecs;
