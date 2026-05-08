@@ -1,7 +1,4 @@
 
-#include <ctime>
-#include <fstream>
-
 #include "psi/logger/LoggerProxy.h"
 #include "psi/logger/LoggerSingleton.h"
 #include "psi/thread/ThreadPool.h"
@@ -111,37 +108,13 @@ void LoggerSingleton::generateHeader(LogLevel lvl)
 #else
     const auto processId = std::to_string(getpid());
 #endif
-    *m_logStream << ++m_timestampId << RECORD_SEPARATOR << currTimeLocal() << RECORD_SEPARATOR << logLevel
+    *m_logStream << ++m_timestampId << RECORD_SEPARATOR << tools::to_iso_8601(system_clock::now()) << RECORD_SEPARATOR << logLevel
                  << RECORD_SEPARATOR << processId << RECORD_SEPARATOR << currThreadName() << RECORD_SEPARATOR;
 }
 
 std::string LoggerSingleton::currThreadName()
 {
     return m_threadMap.currentThreadName();
-}
-
-std::string LoggerSingleton::currTimeLocal() const
-{
-    using namespace std::chrono;
-
-    const auto nextTime = system_clock::now();
-    const auto nextTimePrecised = nextTime.time_since_epoch();
-
-    const auto inNanoSec = duration_cast<nanoseconds>(nextTimePrecised);
-    const auto inSec = duration_cast<seconds>(inNanoSec);
-    const auto nsecs = inNanoSec.count() - inSec.count() * 1'000'000'000;
-
-    struct tm localTime;
-    const time_t tt = system_clock::to_time_t(nextTime);
-    localtime_s(&localTime, &tt);
-
-    std::ostringstream str;
-    str << std::string{} << std::setw(2) << std::setfill('0') << localTime.tm_hour;
-    str << ":" << std::setw(2) << std::setfill('0') << localTime.tm_min;
-    str << ":" << std::setw(2) << std::setfill('0') << localTime.tm_sec;
-    str << "." << std::setw(9) << std::setfill('0') << nsecs;
-
-    return str.str();
 }
 
 void LoggerSingleton::logTo(const std::string &str)
