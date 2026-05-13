@@ -19,10 +19,10 @@ target_include_directories(${target_lib}
 
 psi_config_target(${target_lib})
 
-# set(TEST_SRC
-#     tests/.cpp
-# )
-# psi_make_tests("Logger" "${TEST_SRC}" "psi-logger")
+set(TEST_SRC
+    tests/LoggerProxyTests.cpp
+)
+psi_make_tests("Logger" "${TEST_SRC}" "psi-logger")
 
 set(EXAMPLE_SRC_1.0 examples/1_Simple_Logger/EntryPoint.cpp)
 psi_make_examples("1_Simple_Logger" "${EXAMPLE_SRC_1.0}" "psi-logger")

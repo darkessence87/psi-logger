@@ -143,4 +143,10 @@ void LoggerSingleton::sendToServer(const std::string &str)
     m_loggerProxy->log(m_clientId, str);
 }
 
+ILoggerSingleton &getLoggerInstance(const char *ctx)
+{
+    static LoggerSingleton *mainLogger = new LoggerSingleton(ctx);
+    return *mainLogger;
+}
+
 } // namespace psi::logger

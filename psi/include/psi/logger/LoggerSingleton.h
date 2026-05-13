@@ -87,10 +87,4 @@ private:
  * @param ctx  Context label for the singleton (e.g. `"HTTP"`).
  * @return     Reference to the `ILoggerSingleton` for @p ctx.
  */
-ILoggerSingleton &getLoggerInstance(const char *ctx)
-{
-    static LoggerSingleton* mainLogger = new LoggerSingleton(ctx);
-    return *mainLogger;
-}
-
 } // namespace psi::logger

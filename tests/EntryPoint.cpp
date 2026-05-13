@@ -1,7 +1,5 @@
 #include "psi/test/psi_test.h"
 
-#include <span>
-
 #ifdef PSI_LOGGER
 #include "psi/logger/Logger.h"
 #else
@@ -14,8 +12,6 @@
         std::cout << os.str() << std::endl;                                                                            \
     } while (0)
 #endif
-
-extern void register_all_tests();
 
 int main(int argc, char *argv[])
 {
@@ -30,10 +26,10 @@ int main(int argc, char *argv[])
     }
 
     psi::test::TestLib::init();
-    register_all_tests();
     int result = psi::test::TestLib::run(opts);
 
     psi::test::TestLib::destroy();
+
     if (!opts.list_tests) {
         LOG_INFO_STATIC("Exit tests main");
     }
